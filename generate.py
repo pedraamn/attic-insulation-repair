@@ -962,13 +962,9 @@ def city_cost_callout_html(city: str, state: str) -> str:
     return f"""
 <div class="callout" role="note" aria-label="Typical cost range">
   <div class="callout-title">
-    <span class="badge">Typical range</span>
-    <span>${CONFIG.cost_low}–${CONFIG.cost_high} for one nest</span>
+    <span class="badge">Typical range in {esc(city)}, {esc(state)}</span>
+    <span>${CONFIG.cost_low}–${CONFIG.cost_high}</span>
   </div>
-  <p>
-    In {esc(city)}, {esc(state)}, most pricing comes down to access and where the nest is located.
-    If you want a fast, no-pressure estimate, use the “{esc(CONFIG.cta_text)}” button above.
-  </p>
 </div>
 """.rstrip()
 
