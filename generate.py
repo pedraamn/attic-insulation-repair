@@ -1,24 +1,4 @@
 #!/usr/bin/env python3
-"""
-Static site generator (no JS) for a single-service, multi-city site.
-
-Cloudflare Pages:
-- Build command: (empty)
-- Output directory: public
-
-URL structure:
-- /<city>-<state>/   e.g. /los-angeles-ca/
-- /cost/
-- /how-to/
-
-SEO rules enforced:
-- Exactly one H1 per page
-- <title> == H1
-- Title <= 70 characters
-- Main + City pages use the exact same H2 set (Ahrefs-driven)
-- Cost and How-To use distinct H2 sets (no reused headings across them)
-- Pure CSS, barebones, fast
-"""
 
 from __future__ import annotations
 
@@ -847,6 +827,7 @@ def header_block(*, h1: str, sub: str) -> str:
 <header>
   <div class="hero">
     <h1>{esc(h1)}</h1>
+    <p class="sub">{esc(sub)}</p>
   </div>
 </header>
 """.rstrip()
@@ -895,6 +876,14 @@ def page_shell(*, h1: str, sub: str, inner_html: str) -> str:
 # -----------------------
 # CONTENT SECTIONS
 # -----------------------
+def make_section(headings, paras) -> str:
+  parts = []
+  for h2, p in zip(headings, paras):
+    parts.append(f"<h2>{esc(h2)}</h2>")
+    parts.append(f"<p>{esc(p)}</p>")
+  return "\n".join(parts)
+    
+
 def shared_sections_html(*, local_line: str | None = None) -> str:
     local = f' <span class="muted">{esc(local_line)}</span>' if local_line else ""
     return f"""
@@ -1014,11 +1003,11 @@ def homepage_html() -> str:
 <ul class="city-grid">
 """
         + city_links
-        + """
+        + f"""
 </ul>
 <hr />
 <p class="muted">
-  Also available: <a href="/cost/">Wasp Nest Removal Cost</a> and <a href="/how-to/">How to Get Rid of Wasp Nest</a>.
+  Also available: <a href="/cost/">{esc(COST_TITLE)}</a> and <a href="/how-to/">{esc(HOWTO_TITLE)}</a>.
 </p>
 """
     )
