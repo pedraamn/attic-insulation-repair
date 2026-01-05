@@ -1010,7 +1010,7 @@ def homepage_html() -> str:
         + """
 <hr />
 <h2>Choose your city</h2>
-<p class="muted">Select a city page for the same guide with a light local line.</p>
+<p class="muted">We provide services nationwide, including in the following cities:</p>
 <ul class="city-grid">
 """
         + city_links
